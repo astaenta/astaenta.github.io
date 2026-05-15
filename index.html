@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>astaenta.space</title>
+    <title>Astaenta Space</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
@@ -15,45 +15,63 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        :root {
-            --bg-image: url('background_desktop.png');
-            --bg-position: center center;
-            --bg-attachment: fixed;
-            --container-width: min(100%, 480px);
-        }
-
         html, body {
+            width: 100%;
             height: 100%;
             overflow: hidden;
         }
 
         body {
-            background: var(--bg-image) no-repeat var(--bg-position);
-            background-size: cover;
-            background-attachment: var(--bg-attachment);
-            color: #fff;
             min-height: 100svh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0 20px;
+            color: #fff;
             position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* Fondo en dos capas */
+        .backgrounds {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-desktop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--desktop-bg-height, clamp(220px, 32vw, 460px));
+            background: url('background_desktop.png') no-repeat center top;
+            background-size: cover;
+        }
+
+        .bg-mobile {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: var(--desktop-bg-height, clamp(220px, 32vw, 460px));
+            bottom: 0;
+            background: url('background_mobile.png') no-repeat center top;
+            background-size: cover;
         }
 
         .top-section {
+            position: relative;
+            z-index: 1;
             min-height: 100svh;
             width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding-top: 0;
-            padding-bottom: 0;
+            padding: 0 20px;
         }
 
         .container {
-            width: var(--container-width);
-            max-width: 480px;
+            width: min(100%, 480px);
             text-align: center;
             perspective: 1000px;
         }
@@ -90,17 +108,6 @@
             border-radius: 17px;
             z-index: -1;
             opacity: 0.7;
-        }
-
-        .category-title {
-            color: #fff;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-            text-align: center;
-            text-shadow:
-                1px 1px 3px rgba(0, 0, 0, 0.7),
-                0 0 10px rgba(255, 255, 255, 0.3);
-            position: relative;
         }
 
         .links {
@@ -219,66 +226,26 @@
 
         @media (max-width: 600px) {
             :root {
-                --bg-image: url('background_mobile.png');
-                --bg-position: center top;
-                --bg-attachment: scroll;
-                --container-width: min(86vw, 360px);
-            }
-
-            body {
-                padding: 0 14px;
-                background-position: center top;
-                background-attachment: scroll;
+                --desktop-bg-height: clamp(170px, 26vw, 280px);
             }
 
             .top-section {
-                min-height: 100svh;
-                padding-top: env(safe-area-inset-top);
-                padding-bottom: env(safe-area-inset-bottom);
+                padding-left: 14px;
+                padding-right: 14px;
             }
 
             .container {
                 width: min(86vw, 360px);
             }
-
-            .category {
-                padding: 16px;
-                margin-bottom: 22px;
-            }
-
-            .links {
-                gap: 12px;
-            }
-
-            .link {
-                padding: 12px 14px;
-                min-height: 52px;
-            }
-
-            .link i {
-                font-size: 22px;
-                margin-right: 12px;
-                width: 26px;
-            }
-
-            .category-title {
-                font-size: 1.3rem;
-                margin-bottom: 16px;
-            }
         }
 
         @media (max-width: 420px) {
+            :root {
+                --desktop-bg-height: clamp(150px, 24vw, 240px);
+            }
+
             .container {
                 width: min(84vw, 340px);
-            }
-
-            .category {
-                padding: 14px;
-            }
-
-            .link {
-                padding: 11px 12px;
-                min-height: 50px;
             }
         }
 
@@ -294,6 +261,11 @@
     </style>
 </head>
 <body>
+    <div class="backgrounds" aria-hidden="true">
+        <div class="bg-desktop"></div>
+        <div class="bg-mobile"></div>
+    </div>
+
     <div class="top-section">
         <div class="container">
             <div class="category" id="category1">
@@ -457,6 +429,7 @@
                 e.preventDefault();
 
                 const url = this.getAttribute('data-url');
+
                 this.classList.add('loading');
 
                 setTimeout(() => {
