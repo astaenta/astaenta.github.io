@@ -1,457 +1,567 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Astaenta Space</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>astaenta.space</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
 
-        body {
-            min-height: 100svh;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-            background: #000;
-        }
+    body {
+      background: #000;
+      color: #fff;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 20px;
+      position: relative;
+    }
 
-        /* Fondo en dos capas */
-        .backgrounds {
-            position: fixed;
-            inset: 0;
-            overflow: hidden;
-            z-index: 0;
-            pointer-events: none;
-        }
+    .top-section {
+      min-height: 100dvh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-top: 0;
+    }
 
-        .bg-desktop {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: var(--desktop-bg-height, clamp(220px, 32vw, 460px));
-            background: url('background_desktop.png') no-repeat center top;
-            background-size: cover;
-        }
+    .container {
+      width: min(calc(100vw - 40px), 480px);
+      text-align: center;
+      perspective: 1000px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
 
-        .bg-mobile {
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: var(--desktop-bg-height, clamp(220px, 32vw, 460px));
-            bottom: 0;
-            background: url('background_mobile.png') no-repeat center top;
-            background-size: cover;
-        }
+    .logo-wrap {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      cursor: pointer;
+      transform: translateZ(0);
+      will-change: transform;
+      flex-shrink: 0;
+    }
 
-        .top-section {
-            position: relative;
-            z-index: 1;
-            min-height: 100svh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 0 20px;
-        }
+    .logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.18));
+    }
 
-        .container {
-            width: min(100%, 480px);
-            text-align: center;
-            perspective: 1000px;
-        }
+    .logo-wrap.spinning {
+      animation: logo-spin 0.7s cubic-bezier(0.2, 0.7, 0.15, 1) 1;
+    }
 
-        .category {
-            width: 100%;
-            margin-bottom: 30px;
-            background: linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
-            backdrop-filter: blur(15px);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow:
-                0 12px 32px rgba(0, 0, 0, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                0 2px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.7s cubic-bezier(0.17, 0.67, 0.83, 0.67);
-            transform-style: preserve-3d;
-            will-change: transform;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+    @keyframes logo-spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(720deg);
+      }
+    }
 
-        .category::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg,
-                rgba(255, 255, 255, 0.1),
-                rgba(255, 255, 255, 0.05),
-                rgba(255, 255, 255, 0.1));
-            border-radius: 17px;
-            z-index: -1;
-            opacity: 0.7;
-        }
+    .category {
+      width: 100%;
+      margin-bottom: 24px;
+      background: linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+      backdrop-filter: blur(15px);
+      border-radius: 15px;
+      padding: 16px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                  0 2px 10px rgba(0, 0, 0, 0.2);
+      transition:
+        transform 0.7s cubic-bezier(0.17, 0.67, 0.83, 0.67),
+        box-shadow 0.7s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+      transform-style: preserve-3d;
+      will-change: transform;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-        .links {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    .category::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.1)
+      );
+      border-radius: 17px;
+      z-index: -1;
+      opacity: 0.7;
+    }
 
-        .link {
-            display: flex;
-            align-items: center;
-            background: linear-gradient(145deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.15));
-            color: #fff;
-            text-decoration: none;
-            padding: 15px 20px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            box-shadow:
-                0 4px 10px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transform-style: preserve-3d;
-            transform: translateZ(0);
-            min-height: 56px;
-        }
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-        .link::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
-            background: linear-gradient(45deg,
-                rgba(255, 255, 255, 0.1),
-                rgba(255, 255, 255, 0.05),
-                rgba(255, 255, 255, 0.1));
-            border-radius: 13px;
-            z-index: -1;
-            opacity: 0.6;
-        }
+    .link {
+      display: flex;
+      align-items: center;
+      background: linear-gradient(145deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.15));
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transform-style: preserve-3d;
+      transform: translateZ(0);
+      will-change: transform;
+      min-height: 52px;
+    }
 
-        .link-content {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            z-index: 2;
-            position: relative;
-        }
+    .link::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      background: linear-gradient(45deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.1)
+      );
+      border-radius: 13px;
+      z-index: -1;
+      opacity: 0.6;
+    }
 
-        .link.loading {
-            pointer-events: none;
-        }
+    .link-content {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-width: 0;
+      z-index: 2;
+      position: relative;
+    }
 
-        .link .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            transition: width 0.6s ease-out;
-            z-index: 1;
-            box-shadow:
-                0 0 20px rgba(255, 255, 255, 0.3),
-                inset 0 0 10px rgba(255, 255, 255, 0.2);
-        }
+    .link.loading {
+      pointer-events: none;
+    }
 
-        .link.loading .loading-overlay {
-            width: 100%;
-        }
+    .link .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      transition: width 0.6s ease-out;
+      z-index: 1;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3),
+                  inset 0 0 10px rgba(255, 255, 255, 0.2);
+    }
 
-        .link i {
-            font-size: 24px;
-            margin-right: 15px;
-            width: 30px;
-            text-align: center;
-            z-index: 2;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
-        }
+    .link.loading .loading-overlay {
+      width: 100%;
+    }
 
-        .link-text {
-            flex: 1;
-            text-align: left;
-            font-weight: 500;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-            z-index: 2;
-        }
+    .link i {
+      font-size: 22px;
+      margin-right: 12px;
+      width: 26px;
+      flex: 0 0 26px;
+      text-align: center;
+      z-index: 2;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+      line-height: 1;
+    }
 
-        .link:hover {
-            transform: translateY(-2px) translateZ(5px);
-            box-shadow:
-                0 6px 15px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15),
-                0 0 15px rgba(255, 255, 255, 0.3);
-        }
+    .link-text {
+      flex: 1 1 auto;
+      min-width: 0;
+      text-align: left;
+      font-weight: 500;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+      z-index: 2;
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-        .link:hover::before {
-            opacity: 0.8;
-            background: linear-gradient(45deg,
-                rgba(255, 255, 255, 0.2),
-                rgba(255, 255, 255, 0.1),
-                rgba(255, 255, 255, 0.2));
-        }
+    .link:hover {
+      transform: translateY(-2px) translateZ(5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                  0 0 15px rgba(255, 255, 255, 0.3);
+    }
 
-        .link:active {
-            transform: translateY(1px) translateZ(0);
-            box-shadow:
-                0 2px 5px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
+    .link:hover::before {
+      opacity: 0.8;
+      background: linear-gradient(45deg,
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.2)
+      );
+    }
 
-        @media (max-width: 600px) {
-            :root {
-                --desktop-bg-height: clamp(170px, 26vw, 280px);
-            }
+    .link:active {
+      transform: translateY(1px) translateZ(0);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
 
-            .top-section {
-                padding-left: 14px;
-                padding-right: 14px;
-            }
+    body.no-motion .category,
+    body.no-motion .link {
+      transform: none !important;
+    }
 
-            .container {
-                width: min(86vw, 360px);
-            }
-        }
+    body.no-motion .link:hover {
+      transform: none !important;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
 
-        @media (max-width: 420px) {
-            :root {
-                --desktop-bg-height: clamp(150px, 24vw, 240px);
-            }
+    body.no-motion .category:hover {
+      transform: none !important;
+    }
 
-            .container {
-                width: min(84vw, 340px);
-            }
-        }
+    @media (orientation: portrait) {
+      .container {
+        width: min(calc(100vw - 40px), 360px);
+      }
 
-        @media (hover: none) {
-            .link:hover {
-                transform: translateZ(0);
-            }
+      .category {
+        width: 100%;
+      }
+    }
 
-            .category:hover {
-                transform: none;
-            }
-        }
-    </style>
+    @media (max-width: 420px) {
+      body {
+        padding: 0 12px;
+      }
+
+      .container {
+        width: min(calc(100vw - 24px), 340px);
+      }
+
+      .logo-wrap {
+        margin-bottom: 52px;
+      }
+
+      .category {
+        padding: 14px;
+        margin-bottom: 22px;
+      }
+
+      .links {
+        gap: 9px;
+      }
+
+      .link {
+        padding: 9px 12px;
+        min-height: 48px;
+      }
+
+      .link i {
+        font-size: 20px;
+        width: 24px;
+        flex-basis: 24px;
+        margin-right: 10px;
+      }
+
+      .link-text {
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 340px) {
+      body {
+        padding: 0 10px;
+      }
+
+      .container {
+        width: min(calc(100vw - 20px), 312px);
+      }
+
+      .logo-wrap {
+        margin-bottom: 48px;
+      }
+
+      .category {
+        padding: 12px;
+        margin-bottom: 20px;
+      }
+
+      .links {
+        gap: 8px;
+      }
+
+      .link {
+        padding: 8px 11px;
+        min-height: 44px;
+      }
+
+      .link i {
+        font-size: 19px;
+        width: 22px;
+        flex-basis: 22px;
+        margin-right: 9px;
+      }
+
+      .link-text {
+        font-size: 0.92rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="backgrounds" aria-hidden="true">
-        <div class="bg-desktop"></div>
-        <div class="bg-mobile"></div>
-    </div>
+  <div class="top-section">
+    <div class="container">
+      <div class="logo-wrap" id="logoWrap" aria-label="Logo" role="button" tabindex="0">
+        <img src="logo.svg" alt="Logo">
+      </div>
 
-    <div class="top-section">
-        <div class="container">
-            <div class="category" id="category1">
-                <div class="links">
-                    <div class="link" data-url="https://www.youtube.com/@astaenta">
-                        <div class="link-content">
-                            <i class="fab fa-youtube"></i>
-                            <span class="link-text">YouTube</span>
-                        </div>
-                        <div class="loading-overlay"></div>
-                    </div>
-
-                    <div class="link" data-url="https://www.twitch.tv/astaenta">
-                        <div class="link-content">
-                            <i class="fab fa-twitch"></i>
-                            <span class="link-text">Twitch</span>
-                        </div>
-                        <div class="loading-overlay"></div>
-                    </div>
-
-                    <div class="link" data-url="https://www.instagram.com/astaenta/">
-                        <div class="link-content">
-                            <i class="fab fa-instagram"></i>
-                            <span class="link-text">Instagram</span>
-                        </div>
-                        <div class="loading-overlay"></div>
-                    </div>
-
-                    <div class="link" data-url="https://bsky.app/profile/astaenta.space">
-                        <div class="link-content">
-                            <i class="fas fa-hashtag"></i>
-                            <span class="link-text">Bluesky</span>
-                        </div>
-                        <div class="loading-overlay"></div>
-                    </div>
-                </div>
+      <div class="category" id="category1">
+        <div class="links">
+          <div class="link" data-url="https://www.youtube.com/@astaenta">
+            <div class="link-content">
+              <i class="fab fa-youtube"></i>
+              <span class="link-text">YouTube</span>
             </div>
+            <div class="loading-overlay"></div>
+          </div>
+
+          <div class="link" data-url="https://www.twitch.tv/astaenta">
+            <div class="link-content">
+              <i class="fab fa-twitch"></i>
+              <span class="link-text">Twitch</span>
+            </div>
+            <div class="loading-overlay"></div>
+          </div>
+
+          <div class="link" data-url="https://www.instagram.com/astaenta/">
+            <div class="link-content">
+              <i class="fab fa-instagram"></i>
+              <span class="link-text">Instagram</span>
+            </div>
+            <div class="loading-overlay"></div>
+          </div>
+
+          <div class="link" data-url="https://bsky.app/profile/astaenta.space">
+            <div class="link-content">
+              <i class="fas fa-hashtag"></i>
+              <span class="link-text">Bluesky</span>
+            </div>
+            <div class="loading-overlay"></div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <script>
-        document.body.addEventListener('wheel', preventScroll, { passive: false });
-        document.body.addEventListener('touchmove', preventScroll, { passive: false });
-        document.body.addEventListener('keydown', preventScrollKeys);
+  <script>
+    document.body.addEventListener('wheel', preventScroll, { passive: false });
+    document.body.addEventListener('touchmove', preventScroll, { passive: false });
+    document.body.addEventListener('keydown', preventScrollKeys);
 
-        function preventScroll(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }
+    function preventScroll(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
 
-        function preventScrollKeys(e) {
-            const keys = [32, 33, 34, 35, 36, 37, 38, 39, 40];
-            if (keys.includes(e.keyCode)) {
-                e.preventDefault();
-                return false;
-            }
-        }
+    function preventScrollKeys(e) {
+      const keys = [32, 33, 34, 35, 36, 37, 38, 39, 40];
+      if (keys.includes(e.keyCode)) {
+        e.preventDefault();
+        return false;
+      }
+    }
 
-        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const categories = document.querySelectorAll('.category');
+    const links = document.querySelectorAll('.link');
+    const logoWrap = document.getElementById('logoWrap');
 
-        const categories = document.querySelectorAll('.category');
-        const links = document.querySelectorAll('.link');
-        const container = document.querySelector('.container');
+    let motionEnabled = supportsHover && window.innerWidth > window.innerHeight;
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let currentX = targetX;
+    let currentY = targetY;
+    let isHovering = false;
 
-        let mouseX = 0;
-        let mouseY = 0;
-        let targetX = 0;
-        let targetY = 0;
-        let currentX = 0;
-        let currentY = 0;
-        let isHovering = false;
+    function resetTransforms() {
+      categories.forEach(category => {
+        category.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateX(0px) translateY(0px) translateZ(0px)';
+        category.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 10px rgba(0, 0, 0, 0.2)';
+      });
 
-        function animate() {
-            currentX += (targetX - currentX) * 0.1;
-            currentY += (targetY - currentY) * 0.1;
+      links.forEach(link => {
+        link.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+        link.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
+      });
+    }
 
-            if (isHovering && !isTouchDevice) {
-                const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2;
+    function updateMotionMode() {
+      motionEnabled = supportsHover && window.innerWidth > window.innerHeight;
+      document.body.classList.toggle('no-motion', !motionEnabled);
 
-                const moveX = (currentX - centerX) / centerX;
-                const moveY = (currentY - centerY) / centerY;
+      if (!motionEnabled) {
+        isHovering = false;
+        resetTransforms();
+      }
+    }
 
-                categories.forEach((category, index) => {
-                    const factor = index === 0 ? 1 : -1;
+    function spinLogo() {
+      logoWrap.classList.remove('spinning');
+      void logoWrap.offsetWidth;
+      logoWrap.classList.add('spinning');
+    }
 
-                    const rotateX = moveY * 3 * factor;
-                    const rotateY = moveX * -3 * factor;
-                    const translateX = moveX * 10 * factor;
-                    const translateY = moveY * 10 * factor;
+    logoWrap.addEventListener('click', spinLogo);
 
-                    category.style.transform = `
-                        perspective(1000px)
-                        rotateX(${rotateX}deg)
-                        rotateY(${rotateY}deg)
-                        translateX(${translateX}px)
-                        translateY(${translateY}px)
-                        translateZ(10px)
-                    `;
+    logoWrap.addEventListener('animationend', () => {
+      logoWrap.classList.remove('spinning');
+    });
 
-                    category.style.boxShadow = `
-                        ${-translateX / 2}px ${-translateY / 2}px 30px rgba(0, 0, 0, 0.6),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                        0 2px 10px rgba(0, 0, 0, 0.2)
-                    `;
-                });
+    logoWrap.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        spinLogo();
+      }
+    });
 
-                links.forEach(link => {
-                    const rect = link.getBoundingClientRect();
-                    const linkCenterX = rect.left + rect.width / 2;
-                    const linkCenterY = rect.top + rect.height / 2;
+    function animate() {
+      currentX += (targetX - currentX) * 0.1;
+      currentY += (targetY - currentY) * 0.1;
 
-                    const linkMoveX = (currentX - linkCenterX) / linkCenterX;
-                    const linkMoveY = (currentY - linkCenterY) / linkCenterY;
+      if (isHovering && motionEnabled) {
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const moveX = (currentX - centerX) / centerX;
+        const moveY = (currentY - centerY) / centerY;
 
-                    link.style.transform = `
-                        perspective(1000px)
-                        rotateX(${linkMoveY * -2}deg)
-                        rotateY(${linkMoveX * 2}deg)
-                        translateZ(5px)
-                    `;
-                });
-            }
+        categories.forEach((category, index) => {
+          const factor = index === 0 ? 1 : -1;
+          const rotateX = moveY * 3 * factor;
+          const rotateY = moveX * -3 * factor;
+          const translateX = moveX * 10 * factor;
+          const translateY = moveY * 10 * factor;
 
-            requestAnimationFrame(animate);
-        }
+          category.style.transform =
+            `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateX(${translateX}px) translateY(${translateY}px) translateZ(10px)`;
 
-        animate();
-
-        if (!isTouchDevice) {
-            document.addEventListener('mousemove', (e) => {
-                targetX = e.clientX;
-                targetY = e.clientY;
-            });
-
-            container.addEventListener('mouseenter', () => {
-                isHovering = true;
-            });
-
-            container.addEventListener('mouseleave', () => {
-                isHovering = false;
-
-                categories.forEach(category => {
-                    category.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-                    category.style.boxShadow = `
-                        0 12px 32px rgba(0, 0, 0, 0.6),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                        0 2px 10px rgba(0, 0, 0, 0.2)
-                    `;
-                });
-
-                links.forEach(link => {
-                    link.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-                });
-            });
-        }
-
-        document.querySelectorAll('.link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                const url = this.getAttribute('data-url');
-
-                this.classList.add('loading');
-
-                setTimeout(() => {
-                    window.open(url, '_blank', 'noopener,noreferrer');
-                    this.classList.remove('loading');
-                }, 600);
-            });
-
-            if (!isTouchDevice) {
-                link.addEventListener('mouseenter', function() {
-                    this.style.transform = 'perspective(1000px) translateZ(10px)';
-                    this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15)';
-                });
-
-                link.addEventListener('mouseleave', function() {
-                    if (!isHovering) {
-                        this.style.transform = 'perspective(1000px) translateZ(0)';
-                        this.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
-                    }
-                });
-            }
+          category.style.boxShadow =
+            `${-translateX / 2}px ${-translateY / 2}px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 10px rgba(0, 0, 0, 0.2)`;
         });
-    </script>
+
+        links.forEach(link => {
+          const rect = link.getBoundingClientRect();
+          const linkCenterX = rect.left + rect.width / 2;
+          const linkCenterY = rect.top + rect.height / 2;
+          const linkMoveX = (currentX - linkCenterX) / linkCenterX;
+          const linkMoveY = (currentY - linkCenterY) / linkCenterY;
+
+          link.style.transform =
+            `perspective(1000px) rotateX(${linkMoveY * -2}deg) rotateY(${linkMoveX * 2}deg) translateZ(5px)`;
+        });
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+    updateMotionMode();
+
+    window.addEventListener('resize', updateMotionMode);
+    window.addEventListener('orientationchange', updateMotionMode);
+
+    if (supportsHover) {
+      categories.forEach(category => {
+        category.addEventListener('pointerenter', (e) => {
+          if (!motionEnabled) return;
+          targetX = currentX = e.clientX;
+          targetY = currentY = e.clientY;
+          isHovering = true;
+        });
+
+        category.addEventListener('pointermove', (e) => {
+          if (!motionEnabled || !isHovering) return;
+          targetX = e.clientX;
+          targetY = e.clientY;
+        });
+
+        category.addEventListener('pointerleave', () => {
+          if (!motionEnabled) return;
+          isHovering = false;
+          resetTransforms();
+        });
+      });
+    }
+
+    links.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const url = this.getAttribute('data-url');
+        this.classList.add('loading');
+
+        setTimeout(() => {
+          window.open(url, '_blank');
+          this.classList.remove('loading');
+        }, 600);
+      });
+
+      if (supportsHover) {
+        link.addEventListener('pointerenter', function() {
+          if (!motionEnabled) return;
+          this.style.transform = 'perspective(1000px) translateZ(10px)';
+          this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15)';
+        });
+
+        link.addEventListener('pointerleave', function() {
+          if (!motionEnabled) return;
+          if (!isHovering) {
+            this.style.transform = 'perspective(1000px) translateZ(0)';
+            this.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>
