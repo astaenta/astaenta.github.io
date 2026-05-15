@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>astaenta.space</title>
+  <title>Astaenta Space</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
@@ -63,6 +63,14 @@
       transform: translateZ(0);
       will-change: transform;
       flex-shrink: 0;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .logo-wrap,
+      .link {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
     }
 
     .logo-wrap img {
